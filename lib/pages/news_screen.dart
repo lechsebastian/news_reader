@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_reader/common/utils.dart';
 
 class NewsScreen extends StatelessWidget {
   const NewsScreen({super.key});
@@ -7,10 +8,36 @@ class NewsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('News'),
+        backgroundColor: Colors.deepPurple.shade400,
+        title: Text(
+          'News Reader',
+          style: myTextStyle(25, Colors.white, FontWeight.w700),
+        ),
       ),
-      body: const Center(
-        child: Text('News Screen'),
+      backgroundColor: Colors.deepPurple.shade200,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  ...categories.map((category) {
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 15.0),
+                      child: Text(
+                        category,
+                        style: myTextStyle(23, Colors.white, FontWeight.w600),
+                      ),
+                    );
+                  }),
+                  const SizedBox(width: 15),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
