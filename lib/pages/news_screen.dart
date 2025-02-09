@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_reader/common/news_headline.dart';
 import 'package:news_reader/common/utils.dart';
 
 class NewsScreen extends StatelessWidget {
@@ -16,6 +17,7 @@ class NewsScreen extends StatelessWidget {
       ),
       backgroundColor: Colors.deepPurple.shade200,
       body: SingleChildScrollView(
+        physics: const ScrollPhysics(),
         child: Column(
           children: [
             const SizedBox(height: 20),
@@ -35,6 +37,15 @@ class NewsScreen extends StatelessWidget {
                   const SizedBox(width: 15),
                 ],
               ),
+            ),
+            const SizedBox(height: 20),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: 5,
+              itemBuilder: (context, index) {
+                return const NewsHeadline();
+              },
             ),
           ],
         ),
