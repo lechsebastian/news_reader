@@ -30,7 +30,8 @@ class NewsScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 15.0),
                       child: Text(
                         category,
-                        style: myTextStyle(23, Colors.white, FontWeight.w600),
+                        style: myTextStyle(
+                            23, Colors.grey.shade200, FontWeight.w600),
                       ),
                     );
                   }),
