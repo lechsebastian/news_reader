@@ -1,9 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:news_reader/bloc/get_news_bloc.dart';
 import 'package:news_reader/common/news_headline.dart';
 import 'package:news_reader/common/utils.dart';
+import 'package:news_reader/models/news_model.dart';
 
-class NewsScreen extends StatelessWidget {
+class NewsScreen extends StatefulWidget {
   const NewsScreen({super.key});
+
+  @override
+  State<NewsScreen> createState() => _NewsScreenState();
+}
+
+class _NewsScreenState extends State<NewsScreen> {
+  late GetNewsBloc getNewsBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    getNewsBloc = GetNewsBloc();
+    getNewsBloc.getNews('general', 'us');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,14 +56,24 @@ class NewsScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: 5,
-              itemBuilder: (context, index) {
-                return const NewsHeadline();
-              },
-            ),
+            StreamBuilder<NewsResponse>(
+                stream: getNewsBloc.subject.stream,
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  List<NewsModel> newsList = snapshot.data!.news;
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: newsList.length,
+                    itemBuilder: (context, index) {
+                      return const NewsHeadline();
+                    },
+                  );
+                }),
           ],
         ),
       ),
